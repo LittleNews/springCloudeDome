@@ -1,2 +1,9 @@
 数据库
 在sql文件里面
+
+
+zuul 网关
+eureka 注册中心
+user-service 用户服务
+user—api 二方包
+rest 给前端提供接口
