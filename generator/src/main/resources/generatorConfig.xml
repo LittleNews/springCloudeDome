@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <context id="context1">
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+
+        <plugin type="com.cloudetest.generator.plugin.MysqlPagePlugin"/>
+        <!--<plugin type="com.demo.mybatis.plugin.LombokPlugin"/>-->
+
+        <commentGenerator type="com.cloudetest.generator.comment.MyCommentGenerator">
+
+        </commentGenerator>
+
+        <!--connectionURL="jdbc:mysql://127.0.0.1:8889/dfc?userUnicode=true&amp;characterEncoding=utf8"-->
+        <!--connectionURL="jdbc:mysql://127.0.0.1:8889/cmall?userUnicode=true&amp;characterEncoding=utf8"-->
+        <!--connectionURL="jdbc:mysql://120.78.181.71:3306/cmall?useUnicode=true&amp;characterEncoding=utf8"-->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://192.168.10.38:3306/test?userUnicode=true&amp;characterEncoding=utf8"
+                        userId="kcbx"
+                        password="root">
+        </jdbcConnection>
+        <javaModelGenerator targetPackage="com.user.domeuser.mybatis.entity"
+                            targetProject="dome-user/user-service/src/main/java"/>
+        <sqlMapGenerator targetPackage="mapper"
+                         targetProject="dome-user/user-service/src/main/resources"/>
+        <!-- targetPackage：mapper接口生成的位置 -->
+        <javaClientGenerator targetPackage="com.user.domeuser.mybatis.mapper"
+                             targetProject="dome-user/user-service/src/main/java" type="XMLMAPPER"/>
+
+
+        <table schema="test" tableName="base_table"/>
+       <!--<table tableName="okvoice" alias="task_receipt" domainObjectName="TaskReleaseDTO">-->
+        <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+
+
+    </context>
+</generatorConfiguration>
