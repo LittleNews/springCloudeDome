@@ -1,5 +1,6 @@
 package com.user.domeuser.service.Impl;
 
+import com.alibaba.fastjson.JSON;
 import com.user.domeuser.mybatis.entity.UserInfo;
 import com.user.domeuser.mybatis.mapper.UserInfoMapper;
 import com.user.domeuser.service.BaseService;
@@ -18,10 +19,6 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Autowired
     private UserInfoMapper userInfoMapper;
     /**
-     * 分表数量
-     */
-    private final int tableNum = 4;
-    /**
      * 表名
      */
     private final String tableName = "user_info";
@@ -30,7 +27,6 @@ public class UserInfoServiceImpl implements UserInfoService {
     public Long saveUserInfo(UserInfo userInfo) {
         Long id = baseService.diteratorId(tableName);
         userInfo.setId(id);
-        userInfo.setIndexes(id % tableNum);
         int saveSta = userInfoMapper.insert(userInfo);
         if (saveSta > 0) {
             baseService.upCount(tableName);
@@ -41,13 +37,12 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     public UserInfo selectUserInfoById(Long id) {
-
-        return userInfoMapper.selectByPrimaryKey(id, id % tableNum);
+        System.out.println(JSON.toJSONString(id));
+        return userInfoMapper.selectByPrimaryKey(id);
     }
 
     @Override
     public int upDateById(UserInfo userInfo) {
-        userInfo.setIndexes(userInfo.getId() % tableNum);
         return userInfoMapper.updateByPrimaryKey(userInfo);
     }
 }

@@ -5,6 +5,7 @@ import com.user.domeuser.api.service.UserInfoApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
@@ -27,9 +28,9 @@ public class RestController {
     }
     @RequestMapping(value = "/user")
     @ResponseBody
-    public String getUserRest() {
+    public String getUserRest(@RequestParam("id")Long id) {
 
-        return userInfoService.getUserRest();
+        return userInfoService.getUserRest(id);
     }
 
 }

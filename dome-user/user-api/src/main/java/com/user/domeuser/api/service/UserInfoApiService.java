@@ -10,5 +10,5 @@ package com.user.domeuser.api.service;
 
 public interface UserInfoApiService {
 
-     String getUserRest();
+     String getUserRest(Long id);
 }

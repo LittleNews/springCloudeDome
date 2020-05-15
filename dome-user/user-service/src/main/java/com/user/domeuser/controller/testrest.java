@@ -33,10 +33,10 @@ public class testrest {
         return String.format("id:%s;所在表:%s", id, id % 4);
     }
 
-    @RequestMapping(value = "/get2")
+    @RequestMapping(value = "/getapi")
     @ResponseBody
-    public String get2() {
-        return userInfoApiService.getUserRest();
+    public String get2(@RequestParam("id")Long id) {
+        return userInfoApiService.getUserRest(id);
     }
 
     @RequestMapping(value = "/get1")

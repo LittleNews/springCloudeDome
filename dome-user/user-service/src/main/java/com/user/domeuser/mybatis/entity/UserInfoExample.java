@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserInfoExample {
-    protected int indexes;
     protected String orderByClause;
 
     protected boolean distinct;
@@ -16,14 +15,6 @@ public class UserInfoExample {
     protected int limitEnd;
 
     protected String groupByClause;
-
-    public int getIndexes() {
-        return indexes;
-    }
-
-    public void setIndexes(int indexes) {
-        this.indexes = indexes;
-    }
 
     public UserInfoExample() {
         oredCriteria = new ArrayList<Criteria>();

@@ -12,18 +12,6 @@ public class UserInfo implements Serializable {
      * 
      */
     private String userName;
-    /**
-     * 表索引
-     */
-    private Long indexes;
-
-    public Long getIndexes() {
-        return indexes;
-    }
-
-    public void setIndexes(Long indexes) {
-        this.indexes = indexes;
-    }
 
     private static final Long serialVersionUID = 1L;
 

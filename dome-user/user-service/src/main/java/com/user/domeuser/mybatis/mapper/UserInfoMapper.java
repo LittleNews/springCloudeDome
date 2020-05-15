@@ -21,7 +21,7 @@ public interface UserInfoMapper {
 
     List<UserInfo> selectByExample(UserInfoExample example);
 
-    UserInfo selectByPrimaryKey(@Param("id")Long id,@Param("indexes")Long indexes);
+    UserInfo selectByPrimaryKey(@Param("id")Long id);
 
     int updateByExampleSelective(@Param("record") UserInfo record, @Param("example") UserInfoExample example);
 
