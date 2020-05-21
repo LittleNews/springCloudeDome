@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+
 
 /**
  * @author littlenew
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/rest")
 public class RestController {
 
+    private Integer b = 0;
     @Autowired
     private UserInfoApiService userInfoService;
 
@@ -26,11 +31,44 @@ public class RestController {
         String result = "restget";
         return result;
     }
+
     @RequestMapping(value = "/user")
     @ResponseBody
-    public String getUserRest(@RequestParam("id")Long id) {
+    public String getUserRest(@RequestParam("id") Long id) {
 
         return userInfoService.getUserRest(id);
     }
+
+    @RequestMapping(value = "/test")
+    @ResponseBody
+    public String getRestget(@RequestParam("i") Integer i) {
+        boolean s = true;
+        this.b = i;
+        if (this.b == 1) {
+            s = false;
+        }
+        int count = 1;
+        while (s) {
+            System.out.println("aaaaa撒打算打算" + i);
+            count++;
+            System.out.println(count);
+            if (count == 1000000) {
+                s = false;
+            }
+        }
+
+        return "aaa";
+    }
+
+    @RequestMapping(value = "/pool")
+    @ResponseBody
+    public String getpool(@RequestParam("i") Integer i) {
+
+//        ExecutorService pool = new ThreadPoolExecutor();
+
+        return "aaa";
+    }
+
+
 
 }
