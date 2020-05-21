@@ -62,7 +62,11 @@ public class GatewayConfig {
         try {
             System.out.println("==============================网关地址(eureka.client.demo-service.gateway)为:" + gateway + "==============================");
             String[] urls = this.gateway.split(",");
-            gatweayThreadPool(urls);
+            if (urls.length > 1) {
+                gatweayThreadPool(urls);
+            } else {
+                gatewayUrl = urls[0];
+            }
             if (gatewayUrl.isEmpty()) {
                 System.out.println("==============================网关地址(eureka.client.demo-service.gateway)配置，无可用地址==============================");
             } else {
