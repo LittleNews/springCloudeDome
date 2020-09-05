@@ -1,5 +1,7 @@
 package com.user.domeuser.api.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -22,7 +24,7 @@ import java.util.concurrent.*;
 @ConfigurationProperties(prefix = "eureka.client.demo-service")
 @EnableScheduling
 public class GatewayConfig {
-
+    private static Logger log = LoggerFactory.getLogger(GatewayCallable.class);
     /**
      * 与zuul建立心跳时间/秒（更新zuul可用ip时间）
      */
@@ -35,8 +37,13 @@ public class GatewayConfig {
      */
     private static final int TIMEOUT = 1;
 
+    /**
+     * 配置文件url
+     */
     private String gateway;
-
+    /**
+     * 可用地址
+     */
     private String gatewayUrl;
 
     public String getGatewayUrl() {
@@ -60,7 +67,7 @@ public class GatewayConfig {
     @Scheduled(fixedDelay = 1000 * HEARTBEAT)
     public void gateway() {
         try {
-            System.out.println("==============================网关地址(eureka.client.demo-service.gateway)为:" + gateway + "==============================");
+            log.info("==============================网关地址(eureka.client.demo-service.gateway)为:" + gateway + "==============================");
             String[] urls = this.gateway.split(",");
             if (urls.length > 1) {
                 gatweayThreadPool(urls);
@@ -68,12 +75,12 @@ public class GatewayConfig {
                 gatewayUrl = urls[0];
             }
             if (gatewayUrl.isEmpty()) {
-                System.out.println("==============================网关地址(eureka.client.demo-service.gateway)配置，无可用地址==============================");
+                log.info("==============================网关地址(eureka.client.demo-service.gateway)配置，无可用地址==============================");
             } else {
-                System.out.println("最终使用地址:" + gatewayUrl);
+                log.info("最终使用地址:" + gatewayUrl);
             }
         } catch (Exception e) {
-            System.out.println("==============================网关地址(eureka.client.demo-service.gateway)为空，无法获取到指定应用地址==============================");
+            log.info("==============================网关地址(eureka.client.demo-service.gateway)为空，无法获取到指定应用地址==============================");
         }
 
     }
@@ -109,7 +116,7 @@ public class GatewayConfig {
         long cs = 0L;
         for (int i = 0; i < urls.length; i++) {
             int urlNum = getRandomNorepit(urls.length, set);
-            System.out.println(urlNum);
+            log.info(urlNum+"");
             String testUrl = urls[urlNum].replace("demo-service/", "actuator/info");
             Long stat = System.currentTimeMillis();
             try {
@@ -120,21 +127,21 @@ public class GatewayConfig {
                     cs = obj;
                     gatewayUrl = urls[urlNum];
                 }
-                System.out.println("任务成功返回，可用url:" + testUrl + ";耗时:" + obj);
+                log.info("任务成功返回，可用url:" + testUrl + ";耗时:" + obj);
             } catch (TimeoutException ex) {
-                System.out.println("处理超时啦....");
+                log.info("处理超时啦....");
                 ex.printStackTrace();
 
             } catch (Exception e) {
-                System.out.println("尝试链接：" + testUrl + "当前地址不可用");
+                log.info("尝试链接：" + testUrl + "当前地址不可用");
                 e.printStackTrace();
             }
             Long end = System.currentTimeMillis();
-            System.out.println("线程执行时间：" + (end - stat));
+            log.info("线程执行时间：" + (end - stat));
 
         }
         Long endtime = System.currentTimeMillis();
-        System.out.println("线程池执行时间：" + (endtime - stattime));
+        log.info("线程池执行时间：" + (endtime - stattime));
         // 停止线程
         exec.shutdownNow();
         // 关闭线程池

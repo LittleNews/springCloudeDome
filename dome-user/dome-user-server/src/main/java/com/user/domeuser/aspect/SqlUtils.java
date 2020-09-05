@@ -1,5 +1,6 @@
 package com.user.domeuser.aspect;
 
+import com.alibaba.fastjson.JSON;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -10,6 +11,8 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -23,6 +26,7 @@ import java.util.*;
  * @date 2020/5/14 10:35 AM
  **/
 public class SqlUtils {
+    private static Logger log = LoggerFactory.getLogger(SqlUtils.class);
     /**
      * 获取aop中的SQL语句
      * @param pjp
@@ -50,10 +54,10 @@ public class SqlUtils {
             if (parameterAnnotations[i].length == 0){ //说明该参数没有注解，此时该参数可能是实体类，也可能是Map，也可能只是单参数
                 if (object.getClass().getClassLoader() == null && object instanceof Map){
                     map.putAll((Map<? extends String, ?>) object);
-                    System.out.println("该对象为Map");
+                    log.info("该对象为Map");
                 }else{//形参为自定义实体类
                     map.putAll(objectToMap(object));
-                    System.out.println("该对象为用户自定义的对象");
+                    log.info("该对象为用户自定义的对象");
                 }
             }else{//说明该参数有注解，且必须为@Param
                 for (Annotation annotation : parameterAnnotations[i]){
@@ -133,7 +137,7 @@ public class SqlUtils {
     private static Map<String, Object> objectToMap(Object obj) throws IllegalAccessException {
         Map<String, Object> map = new HashMap<>();
         Class<?> clazz = obj.getClass();
-        System.out.println(clazz);
+        log.info(JSON.toJSONString(clazz));
         for (Field field : clazz.getDeclaredFields()) {
             field.setAccessible(true);
             String fieldName = field.getName();

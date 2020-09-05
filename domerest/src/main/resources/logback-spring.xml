@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration  scan="true" scanPeriod="60 seconds" debug="false">
-    <contextName>userService</contextName>
+    <contextName>restApp</contextName>
     <!--输出到控制台-->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -23,7 +23,7 @@
         </layout>
     </appender>
 
-    <logger name="com.user.domeuser" additivity="false">
+    <logger name="com.demo.rest" additivity="false">
         <appender-ref ref="console"/>
         <appender-ref ref="logFile" />
     </logger>

@@ -1,8 +1,11 @@
 package com.user.domeuser.api.service.impl;
 
+import com.user.domeuser.api.config.GatewayCallable;
 import com.user.domeuser.api.config.GatewayConfig;
 import com.user.domeuser.api.config.RestTemplateBuilderInit;
 import com.user.domeuser.api.service.UserInfoApiService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,7 @@ import java.util.Map;
  **/
 @Service
 public class UserInfoApiServiceImpl implements UserInfoApiService {
+    private static Logger log = LoggerFactory.getLogger(GatewayCallable.class);
     @Autowired
     private RestTemplateBuilderInit restTemplateBuilderInit;
     @Autowired
@@ -26,6 +30,7 @@ public class UserInfoApiServiceImpl implements UserInfoApiService {
         Map<String, Long> map = new HashMap<>();
         map.put("id", id);
         String result = restTemplateBuilderInit.restTemplate().getForObject(gatewayConfig.getGatewayUrl() + "get1?id={id}", String.class, map);
+        log.info(result);
         return result;
     }
 }

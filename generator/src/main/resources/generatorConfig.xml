@@ -32,7 +32,7 @@
 
         <table schema="test" tableName="base_table"/>
        <!--<table tableName="okvoice" alias="task_receipt" domainObjectName="TaskReleaseDTO">-->
-        <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         <!--</table>-->
 
 

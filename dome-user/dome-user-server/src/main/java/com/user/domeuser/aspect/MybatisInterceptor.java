@@ -1,16 +1,18 @@
 package com.user.domeuser.aspect;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.plugin.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.sql.Connection;
 import java.util.Map;
 import java.util.Properties;
+
 
 /**
  * @author littlenew
@@ -31,7 +33,7 @@ import java.util.Properties;
 })
 
 public class MybatisInterceptor implements Interceptor {
-
+    private static Logger log = LoggerFactory.getLogger(MybatisInterceptor.class);
     /**
      * {表名:数量,表名:数量}
      */
@@ -44,11 +46,11 @@ public class MybatisInterceptor implements Interceptor {
         StatementHandler statementHandler = (StatementHandler) target;
         BoundSql boundSql = statementHandler.getBoundSql();
         String sql = boundSql.getSql();
-        System.out.println("原始sql：" + sql);
+        log.info("原始sql：" + sql);
 
         resetSql(invocation);
         String sql1 = boundSql.getSql();
-        System.out.println("替换后" + sql1);
+        log.info("替换后" + sql1);
         return invocation.proceed();
 
     }
@@ -87,8 +89,8 @@ public class MybatisInterceptor implements Interceptor {
                         String sql = boundSql.getSql();
                         StringBuffer sqlBuffer = new StringBuffer();
                         for (int i = 0; i < tablenum; i++) {
-                           sqlBuffer.append( sql.replace(t[0], t[0] + "_" + i));
-                           sqlBuffer.append("UNION");
+                            sqlBuffer.append(sql.replace(t[0], t[0] + "_" + i));
+                            sqlBuffer.append("UNION");
                         }
                         sqlTable = sqlBuffer.toString();
                         sqlTable = sqlTable.substring(0, sqlTable.length() - 5);

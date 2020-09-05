@@ -2,6 +2,8 @@ package com.demo.rest.controller;
 
 
 import com.user.domeuser.api.service.UserInfoApiService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +22,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Controller
 @RequestMapping(value = "/rest")
 public class RestController {
+    private static Logger log = LoggerFactory.getLogger(RestController.class);
 
     private Integer b = 0;
     @Autowired
@@ -49,9 +52,9 @@ public class RestController {
         }
         int count = 1;
         while (s) {
-            System.out.println("aaaaa撒打算打算" + i);
+           log.info("aaaaa撒打算打算" + i);
             count++;
-            System.out.println(count);
+            log.info(count+"");
             if (count == 1000000) {
                 s = false;
             }

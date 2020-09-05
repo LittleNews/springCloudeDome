@@ -6,6 +6,8 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
@@ -19,6 +21,7 @@ import java.util.List;
 //@Aspect
 //@Component
 public class MysqlAspect {
+    private static Logger log = LoggerFactory.getLogger(MysqlAspect.class);
     @Autowired
     private SqlSessionFactory sqlSessionFactory;
 
@@ -32,15 +35,15 @@ public class MysqlAspect {
 
     @Around("log()")
     public Object haha(ProceedingJoinPoint pjp) throws Throwable {
-        System.out.println("++++++++++开始+++++++++++");
+        log.info("++++++++++开始+++++++++++");
 
-        System.out.println("class.method: " + pjp.getSignature().getDeclaringTypeName() + "." + pjp.getSignature().getName());
-        System.out.println("args: " + pjp.getArgs());
+        log.info("class.method: " + pjp.getSignature().getDeclaringTypeName() + "." + pjp.getSignature().getName());
+        log.info("args: " + pjp.getArgs());
 
         Object[] args = pjp.getArgs();
         for(Object obj : args){
 
-            System.out.println("arguments: "+obj);
+            log.info("arguments: "+obj);
         }
 //        for(int i = 0;i<args.length;i++){
 //            if(i==0){
@@ -54,23 +57,23 @@ public class MysqlAspect {
         Object proceed = pjp.proceed();
 //        3.获取SQL
         String sql = SqlUtils.getMybatisSql(pjp, sqlSessionFactory);
-        System.out.println("SQL:" + sql);
-        System.out.println("++++++++++结束+++++++++++");
+        log.info("SQL:" + sql);
+        log.info("++++++++++结束+++++++++++");
         return proceed;
     }
 
 
     @Around("execution(* com.alibaba.fastjson.JSON.toJSONString(java.lang.Object)) && args(obj)")
     public String parse2String(ProceedingJoinPoint join, Object obj){
-        System.out.println("parse to String before");
+        log.info("parse to String before");
         String str = "";
         try {
             str = (String) join.proceed(new Object[]{obj});
-            System.out.println("result:"+str);
+            log.info("result:"+str);
         } catch (Throwable e) {
             e.printStackTrace();
         }
-        System.out.println("parse to String after");
+        log.info("parse to String after");
         return str;
     }
 
@@ -79,7 +82,7 @@ public class MysqlAspect {
 
         String methodName = joinPoint.getSignature().getName();
         List<Object> args = Arrays.asList(joinPoint.getArgs());
-        System.out.println("The method " + methodName + " begins with " + args);
+        log.info("The method " + methodName + " begins with " + args);
 
 //        return joinPoint;
     }
